@@ -134,7 +134,7 @@ def main():
             with col1:              
                 st.subheader(" ", divider="rainbow") 
                 st.sidebar.image("assets/cat-study.gif", use_container_width=True, width=100, caption="🐈 simboraaaa")
-                st.image("assets/menina.gif", use_container_width=True, caption="🐈 acoooorda...")
+                st.sidebar.image("assets/menina.gif", use_container_width=True, caption="🐈 acoooorda...")
 
             
             with col2:
