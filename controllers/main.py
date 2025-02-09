@@ -58,16 +58,16 @@ def main():
         login()
         return
     
-    st.sidebar.write(f':green[**Bem vindo(a):**] :blue[**{st.session_state.nome}**]')
-    st.subheader(" ", divider="rainbow")
+    st.sidebar.write(f':blue[**Bem vindo(a):**] :green[**{st.session_state.nome}**]')
+    st.sidebar.subheader(" ", divider="rainbow")
 
     col1, col2, col3 = st.columns([2, 3, 1])
     
     with col1:
-        dificuldade = st.radio("Escolha a dificuldade:", ["Fácil", "Média", "Difícil", "Complexa"], horizontal=True, help="Escolha a dificuldade das operações matemáticas.", key="dificuldade", index=2)
-    
+        dificuldade = st.sidebar.radio(f":blue[**Escolha a dificuldade:**]", ["Fácil", "Média", "Difícil", "Complexa"], horizontal=True, help="Escolha a dificuldade das operações matemáticas.", key="dificuldade", index=2)
+    st.sidebar.subheader(" ", divider="rainbow")    
     with col2:    
-        operacoes = st.multiselect(
+        operacoes = st.sidebar.multiselect(
             ':blue[**Escolha as operações:**]',
             ['Todas', 'Adição', 'Subtração', 'Multiplicação', 'Divisão', 'Exponenciação'],
             placeholder="Selecione pelo menos uma operação", 
@@ -75,9 +75,9 @@ def main():
             key="operacoes",
             default=["Todas"]
         )
-        
+    st.sidebar.subheader(" ", divider="rainbow")        
     with col3:
-        mostrar_historico = st.toggle('Mostrar histórico', help="Clique para exibir o histórico de pontuação do dia.")
+        mostrar_historico = st.sidebar.toggle('Mostrar histórico', help="Clique para exibir o histórico de pontuação do dia.")
 
     if not operacoes:
         st.error("Por favor, selecione pelo menos uma operação para continuar.")
@@ -110,6 +110,10 @@ def main():
         with st.form(key='resposta_form'):
             st.write(f':blue[**Exercício**] :gray[**({st.session_state.operacao}):**] :red[**{st.session_state.pergunta}**]')
             col1, col2, col3 = st.columns([1,3,1])
+
+            with col1:
+                st.image("assets/divisao-distributiva.gif", use_container_width=True, width=100, caption="📊 Gráfico")
+
             
             with col2:
                 if "campo_resposta" not in st.session_state:
@@ -123,9 +127,13 @@ def main():
             with col2:
                 col4, col5 = st.columns(2) 
                 with col4:               
-                    responder = st.form_submit_button(":green[**Responder**] :blue[**Pergunta**]", help="Digite sua resposta e clique em 'Responder' para verificar se está correta.", icon=":material/add_task:")
+                    responder = st.form_submit_button(":green[**Responder**] **Pergunta**", help="Digite sua resposta e clique em 'Responder' para verificar se está correta.", icon=":material/add_task:")
                 with col5:    
-                    pular = st.form_submit_button(":green[**Pular**] :blue[**Pergunta**]", help="Pula a pergunta atual e exibe uma nova pergunta", icon=":material/move_down:")
+                    pular = st.form_submit_button(":green[**Pular**] **Pergunta**", help="Pula a pergunta atual e exibe uma nova pergunta", icon=":material/move_down:")
+
+            with col3:
+                st.image("assets/cat-cats.gif", use_container_width=True, width=100, caption="📊 Gráfico")
+
 
             if responder:
                 try:
