@@ -4,8 +4,8 @@ import random
 def config_page():
     """Configura a página do Streamlit e adiciona o cabeçalho."""
     st.set_page_config(
-        page_title="📢 A.C.T. 2024/2026", 
-        page_icon="💰", 
+        page_title="Matemática", 
+        page_icon="🧮", 
         layout="wide",
         initial_sidebar_state="collapsed"
         )
