@@ -25,40 +25,48 @@ def carregar_historico_por_data(data_escolhida):
 def exibir_historico():
     st.subheader(":blue[**Histórico de Pontuação**]")
 
-    data_selecionada = st.date_input("📅 Selecione a data do histórico:", value=pd.to_datetime("today"), format="DD/MM/YYYY")
+    col1, col2, col3 = st.columns([1, 3, 1])
+    
+    with col1:
 
-    with st.expander(f"📜 :blue[**Histórico de Pontuação**] ({data_selecionada.strftime('%d/%m/%Y')})", expanded=False):
-        historico_df = carregar_historico_por_data(data_selecionada)
-        st.success("Planilha de acertos, erros e pulos")
-        
-        if historico_df.empty:
-            st.warning("Nenhum dado disponível para essa data.")
-        else:
-            st.data_editor(historico_df, use_container_width=True)
+        data_selecionada = st.date_input("📅 Selecione a data do histórico:", value=pd.to_datetime("today"), format="DD/MM/YYYY")
 
-    if not historico_df.empty:
-        estatisticas = historico_df.groupby(['Operação'])['Resultado'].value_counts().unstack().fillna(0).reset_index()
-        estatisticas["Legenda"] = estatisticas.apply(
-            lambda row: f"{row['Operação']} ✅ {row.get('Certo', 0)} | ❌ {row.get('Errado', 0)} | ⏭️ {row.get('Pulado', 0)}", axis=1
-        )
-        estatisticas_long = estatisticas.melt(id_vars=['Operação', 'Legenda'], var_name='Resultado', value_name='Quantidade')
-        estatisticas_long = estatisticas_long[estatisticas_long["Quantidade"] > 0]
-
-        if not estatisticas_long.empty:
-            fig = px.bar(
-                estatisticas_long,
-                x="Legenda",
-                y="Quantidade",
-                color="Resultado",
-                barmode="stack",
-                title=f"📊 Estatísticas de Acertos, Erros e Pulos ({data_selecionada.strftime('%d/%m/%Y')})",
-                text="Quantidade",
-                color_discrete_map={"Certo": "limegreen", "Errado": "crimson", "Pulado": "dodgerblue"}
+    with col2:
+        with st.expander(f"📜 :blue[**Histórico de Pontuação**] ({data_selecionada.strftime('%d/%m/%Y')})", expanded=False):
+            historico_df = carregar_historico_por_data(data_selecionada)
+            st.success("Planilha de acertos, erros e pulos")
+            
+            if historico_df.empty:
+                st.warning("Nenhum dado disponível para essa data.")
+            else:
+                st.data_editor(historico_df, use_container_width=True, hide_index=True)
+    
+        if not historico_df.empty:
+            estatisticas = historico_df.groupby(['Operação'])['Resultado'].value_counts().unstack().fillna(0).reset_index()
+            estatisticas["Legenda"] = estatisticas.apply(
+                lambda row: f"{row['Operação']} ✅ {row.get('Certo', 0)} | ❌ {row.get('Errado', 0)} | ⏭️ {row.get('Pulado', 0)}", axis=1
             )
-            fig.update_traces(textposition="inside")
+            estatisticas_long = estatisticas.melt(id_vars=['Operação', 'Legenda'], var_name='Resultado', value_name='Quantidade')
+            estatisticas_long = estatisticas_long[estatisticas_long["Quantidade"] > 0]
+    
+            if not estatisticas_long.empty:
+                fig = px.bar(
+                    estatisticas_long,
+                    x="Legenda",
+                    y="Quantidade",
+                    color="Resultado",
+                    barmode="stack",
+                    title=f"📊 Estatísticas de Acertos, Erros e Pulos ({data_selecionada.strftime('%d/%m/%Y')})",
+                    text="Quantidade",
+                    color_discrete_map={"Certo": "limegreen", "Errado": "crimson", "Pulado": "dodgerblue"}
+                )
+                fig.update_traces(textposition="inside")
+    
+                with st.expander("📈 :blue[**Estatísticas do Dia**]", expanded=False):
+                    st.plotly_chart(fig)
 
-            with st.expander("📈 :blue[**Estatísticas do Dia**]", expanded=False):
-                st.plotly_chart(fig)
+    with col3:
+        st.image("assets/graph.gif", use_container_width=True, width=100, caption="📊 Gráfico")
 
 def salvar_pontuacao_por_dia(nome, pontos, data, historico):
     """Salva a entrada do histórico incluindo os pulos."""

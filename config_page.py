@@ -40,6 +40,21 @@ def escolher_logo():
     return random.choice(logos)
 
 
+def render_logo():
+    random_logo = escolher_logo()
+    # st.logo(
+    #     random_logo, 
+    #     size="large",
+    #     link="https://www.sindaguarn.com.br/wp-content/uploads/2024/10/Acordo-Coletivo-de-Trabalho-2024-2026-Caern.pdf"
+    # )
+
+
+    st.logo(
+        random_logo, 
+        size="large"
+    )
+
+
 def rodape():
     """Adiciona o rodapé no final da página."""
 

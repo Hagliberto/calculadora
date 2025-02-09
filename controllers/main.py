@@ -6,7 +6,8 @@ from models.perguntas import gerar_pergunta
 from views.historico import exibir_historico
 from views.pontuacao import exibir_pontuacao
 from views.historico import salvar_pontuacao_por_dia
-from config_page import config_page, escolher_logo, rodape
+from config_page import config_page, rodape, render_logo
+
 
 # Diretório onde os históricos diários serão salvos
 DATA_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "data")
@@ -25,10 +26,11 @@ def login():
 
 def main():
     config_page()
-    escolher_logo()
+    render_logo()
+    
     rodape()
     
-    with st.expander("🔢 :blue[**Exercícios de Matemática**]"):
+    with st.sidebar.expander("🔢 :blue[**Exercícios de Matemática**]"):
         st.markdown(
             """
             <div style="text-align: center; padding: 15px; border-radius: 8px; background-color: #f0f8ff;">
@@ -56,7 +58,7 @@ def main():
         login()
         return
     
-    st.write(f':green[**Bem vindo(a):**] :blue[**{st.session_state.nome}**]')
+    st.sidebar.write(f':green[**Bem vindo(a):**] :blue[**{st.session_state.nome}**]')
     st.subheader(" ", divider="rainbow")
 
     col1, col2, col3 = st.columns([2, 3, 1])
