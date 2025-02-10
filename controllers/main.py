@@ -107,36 +107,10 @@ def main():
         exibir_historico()
     else:
         st.subheader(":blue[**Perguntas**]")
-        # with st.form(key='resposta_form'):
-        #     st.success(f':blue[**Exercício**] :gray[**({st.session_state.operacao}):**] :red[**{st.session_state.pergunta}**]')
-
-
-        
-        # Exemplo de uso de st.form
         with st.form(key='resposta_form'):
-            # Centralizando o conteúdo usando HTML
-            st.markdown(
-                f"""
-                <div style='display: flex; justify-content: center; align-items: center; font-size: 100px'>
-                    <p style='color: blue; font-weight: bold; margin: 0; font-size: 15px'>Exercício </p>
-                    <p style='color: gray; margin: 0; font-size: 15px'> ({st.session_state.operacao}): </p>
-                    <p style='color: red; font-weight: bold; margin: 0; font-size: 25px'>{st.session_state.pergunta}</p>
-                </div>
-                """,
-                unsafe_allow_html=True
-            )
-                
-
-
-
+            st.success(f':blue[**Exercício**] :gray[**({st.session_state.operacao}):**] :red[**{st.session_state.pergunta}**]')
             col1, col2, col3 = st.columns([1,3,1])
-
-            with col1:              
-                st.subheader(" ", divider="rainbow") 
-                st.sidebar.image("assets/cat-study.gif", use_container_width=True, width=100, caption="🐈 simboraaaa")
-                st.sidebar.image("assets/menina.gif", use_container_width=True, caption="🐈 acoooorda...")
-
-            
+           
             with col2:
                 if "campo_resposta" not in st.session_state:
                     st.session_state["campo_resposta"] = ""
@@ -182,6 +156,7 @@ def main():
                     with col2:                    
                         st.error("Por favor, insira um número válido.")
                         st.toast("Por favor, insira um número válido.", icon=":material/123:")
+
 
             if pular:
                 st.session_state.pontos["Pulado"] += 1
