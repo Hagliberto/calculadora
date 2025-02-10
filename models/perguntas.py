@@ -24,7 +24,7 @@ def gerar_pergunta(operacoes, dificuldade="fácil"):
         except Exception as e:
             print(f"Erro ao avaliar a expressão: {expressao}")
             raise e  # Lança o erro para depuração
-        
+
         # Exibir a expressão colorida no Streamlit
         exibir_expressao_colorida(expressao_exibida)
 
@@ -35,21 +35,23 @@ def gerar_pergunta(operacoes, dificuldade="fácil"):
     num2 = random.randint(1, 50)
     operacao = random.choice(operacoes)
 
+    if operacao == '**':
+        num2 = random.randint(2, 3)  # Limita o expoente a 2 ou 3
+
     resposta_correta = eval(f"{num1} {operacao} {num2}")
     expressao_formatada = f"({num1} {operacao} {num2})"
 
     return f"{expressao_formatada} = ?", resposta_correta, operacao_nomes[operacao]
 
-
 def gerar_expressao_complexa(incluir_fracoes=False):
     """Gera uma expressão matemática complexa garantindo que frações estejam bem agrupadas."""
-    
+
     def gerar_numero():
         """Gera um número inteiro ou uma fração corretamente formatada para exibição e cálculo."""
         if incluir_fracoes and random.random() < 0.5:  # 50% de chance de gerar fração
             numerador = random.randint(1, 10)
             denominador = random.randint(2, 10)  # Evita divisão por zero
-            
+
             # Representação correta da fração com parênteses para evitar múltiplas divisões seguidas
             fracao_calculo = f"Fraction({numerador}, {denominador})"
             fracao_exibida = f"({numerador}/{denominador})"
@@ -60,14 +62,19 @@ def gerar_expressao_complexa(incluir_fracoes=False):
 
     # Gerar números aleatórios (inteiros ou frações corretamente formatadas)
     numeros = [gerar_numero() for _ in range(6)]
-    operacoes = [random.choice(['+', '-', '*', '/']) for _ in range(5)]  
+    operacoes = [random.choice(['+', '-', '*', '/', '**']) for _ in range(5)]
+
+    # Limitar o expoente a 2 ou 3
+    for i in range(len(operacoes)):
+        if operacoes[i] == '**':
+            numeros[i+1] = (str(random.randint(2, 3)), str(random.randint(2, 3)))
 
     if len(operacoes) < 5:
         raise ValueError("Número insuficiente de operadores gerados")
 
     # Formatos respeitando a hierarquia correta: () → [] → {}
     formatos = [
-        "(({0} {1} {2}) {3} ({4} {5} {6}))",  # Apenas ()  
+        "(({0} {1} {2}) {3} ({4} {5} {6}))",  # Apenas ()
         "[(({0} {1} {2}) {3} ({4} {5} {6}))]",  # () dentro de []
         "{{[(({0} {1} {2}) {3} ({4} {5} {6}))]}}"  # () dentro de [] dentro de {}
     ]
@@ -101,7 +108,6 @@ def gerar_expressao_complexa(incluir_fracoes=False):
 
     return expressao, expressao_exibida
 
-
 def exibir_expressao_colorida(expressao):
     """Exibe a expressão no Streamlit com cores para facilitar a identificação dos parênteses."""
 
@@ -124,10 +130,10 @@ def exibir_expressao_colorida(expressao):
     st.markdown(
         f"""
         <div style="
-            background-color: #FFFBEA; 
-            padding: 10px; 
-            border-radius: 20px; 
-            border: 1px solid #FFD700; 
+            background-color: #FFFBEA;
+            padding: 10px;
+            border-radius: 20px;
+            border: 1px solid #FFD700;
             text-align: center;
             font-size: 25px;">
             <span style="color: red; font-weight: bold;">{expressao_colorida}</span>

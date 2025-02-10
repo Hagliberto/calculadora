@@ -309,28 +309,28 @@ def main():
             with col3:
                 col4, col5 = st.columns(2)
                 with col4:
-                    responder = st.form_submit_button(":green[**Responder**] **Pergunta**", help="Digite sua resposta e clique em 'Responder' para verificar se está correta.", icon=":material/add_task:", use_container_width=True)
+                    responder = st.form_submit_button(":green[**Responder**] **Pergunta**", icon=":material/add_task:", use_container_width=True)
                 with col5:
-                    pular = st.form_submit_button(":green[**Pular**] **Pergunta**", help="Pula a pergunta atual e exibe uma nova pergunta", icon=":material/move_down:", use_container_width=True)
-
-
-
+                    pular = st.form_submit_button(":green[**Pular**] **Pergunta**", icon=":material/move_down:", use_container_width=True)
+            
             if responder:
                 try:
                     resposta_usuario = float(resposta_usuario.strip()) if resposta_usuario.strip() else None
-
+            
                     if resposta_usuario is not None:
                         resultado = "Certo" if resposta_usuario == st.session_state.resposta_correta else "Errado"
                         st.session_state.pontos[resultado] += 1
-
+            
                         data_atual = datetime.datetime.now().date()
                         ultima_resposta = [[st.session_state.nome, data_atual, st.session_state.operacao, resultado]]
                         salvar_pontuacao_por_dia(st.session_state.nome, st.session_state.pontos, data_atual, ultima_resposta)
-
+            
                         st.session_state.pop("campo_resposta", None)
-
+            
                         st.session_state.pergunta, st.session_state.resposta_correta, st.session_state.operacao = gerar_pergunta(operacoes_selecionadas, dificuldade.lower())
-
+            
+                        st.toast(resultado, icon="✅" if resultado == "Certo" else "❌")
+            
                         st.rerun()
                     else:
                         with col2:
@@ -340,21 +340,27 @@ def main():
                     with col2:
                         st.error("Por favor, insira um número válido.")
                         st.toast("Por favor, insira um número válido.", icon=":material/123:")
-
+            
             if pular:
                 st.session_state.pontos["Pulado"] += 1
-
+            
                 data_atual = datetime.datetime.now().date()
                 st.session_state.historico.append([st.session_state.nome, data_atual, st.session_state.operacao, "Pulado"])
-
+            
                 st.session_state.pergunta, st.session_state.resposta_correta, st.session_state.operacao = gerar_pergunta(operacoes_selecionadas, dificuldade.lower())
-
+            
                 salvar_pontuacao_por_dia(st.session_state.nome, st.session_state.pontos, data_atual, st.session_state.historico)
-
+            
+                st.toast("Pulado", icon="⏭️")
+            
                 st.rerun()
+            
 
-    st.subheader(" ", divider="rainbow")
-    # Exibir o quadro no Streamlit
-    desenhar_quadro()
-    st.subheader(" ", divider="rainbow")
-    exibir_pontuacao()
+
+    mostrar_quadro = st.toggle(':rainbow[**Mostrar Quadro para Rabiscar**]', help="Faça rascunhos, contas, desenhos...", key="mostrar_quadro")
+
+    if mostrar_quadro:
+        desenhar_quadro()
+    else:
+        st.subheader(" ", divider="rainbow")
+        exibir_pontuacao()
