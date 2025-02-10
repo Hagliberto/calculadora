@@ -2,6 +2,7 @@ import streamlit as st
 import plotly.express as px
 import pandas as pd
 import os
+from views.pontuacao import exibir_pontuacao
 
 # Diretório onde os históricos diários são armazenados
 DATA_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "data")
@@ -28,7 +29,7 @@ def exibir_historico():
     col1, col2, col3 = st.columns([1, 3, 1])
     
     with col1:
-
+        exibir_pontuacao()
         data_selecionada = st.date_input("📅 Selecione a data do histórico:", value=pd.to_datetime("today"), format="DD/MM/YYYY")
 
     with col2:

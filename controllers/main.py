@@ -240,7 +240,7 @@ def main():
                 except ValueError:
                     resposta_numerica = None
 
-                st.caption("Digite sua resposta e clique em 'Responder' para verificar se está correta.")
+                # st.caption("Digite sua resposta e clique em 'Responder' para verificar se está correta.")
                 # exibir_pontuacao()
 
             with col2:
