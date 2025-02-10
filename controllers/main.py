@@ -115,6 +115,8 @@ def main():
     if mostrar_historico:
         exibir_historico()
     else:
+        st.subheader(" ", divider="rainbow")
+        exibir_pontuacao()        
         st.subheader(":blue[**Perguntas**]")
         with st.form(key='resposta_form'):
             st.info(f':blue[**Exercício**] :gray[**({st.session_state.operacao}):**] :red[**{st.session_state.pergunta}**]')
