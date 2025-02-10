@@ -124,7 +124,7 @@ def main():
                 if "campo_resposta" not in st.session_state:
                     st.session_state["campo_resposta"] = ""
     
-                resposta_usuario = st.text_input(":green[**Digite sua resposta⤵️**]", key="campo_resposta", placeholder="✍🏻 Insira sua resposta aqui")
+                resposta_usuario = st.number_input(":green[**Digite sua resposta⤵️**]", key="campo_resposta", placeholder="✍🏻 Insira sua resposta aqui")
                 st.caption("Digite sua resposta e clique em 'Responder' para verificar se está correta.")
                 # exibir_pontuacao()
 
