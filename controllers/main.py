@@ -117,7 +117,7 @@ def main():
     else:
         st.subheader(":blue[**Perguntas**]")
         with st.form(key='resposta_form'):
-            st.warning(f':blue[**Exercício**] :gray[**({st.session_state.operacao}):**] :red[**{st.session_state.pergunta}**]')
+            st.info(f':blue[**Exercício**] :gray[**({st.session_state.operacao}):**] :red[**{st.session_state.pergunta}**]')
             col1, col2, col3 = st.columns([1,3,1])
            
             with col2:
