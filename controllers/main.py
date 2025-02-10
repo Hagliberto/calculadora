@@ -2,13 +2,14 @@ import streamlit as st
 import datetime
 import os
 import pandas as pd
-from models.perguntas import gerar_pergunta
+from models.perguntas import gerar_pergunta, exibir_expressao_colorida
 from views.historico import exibir_historico
 from views.pontuacao import exibir_pontuacao
 from views.historico import salvar_pontuacao_por_dia
 from config_page import config_page, rodape, render_logo
 import random
 import time  # Importe o módulo time corretamente
+from streamlit_drawable_canvas import st_canvas
 
 # Diretório onde os históricos diários serão salvos
 DATA_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "data")
@@ -33,6 +34,63 @@ def login():
         st.image("assets/study-cat.gif", use_container_width=True, caption=" ")
 
     st.subheader(" ", divider="rainbow")
+
+
+
+import streamlit as st
+from streamlit_drawable_canvas import st_canvas
+
+def desenhar_quadro():
+    """Cria um quadro para rabiscar que ocupa toda a largura da tela e pode ser limpo corretamente."""
+
+    st.markdown("### 📝 Quadro para Rabiscar")
+
+    # Criar colunas para layout responsivo
+    cor_linha, modo_desenho = st.columns([0.5, 5])
+
+    with cor_linha:
+        # Seletor de cor para a linha
+        cor_selecionada = st.color_picker("🎨 :rainbow[Cor da linha:]", "#000000")
+    with modo_desenho:
+        # Adicionando opções para selecionar o modo de desenho
+        drawing_mode = st.radio(
+            ":blue[**Modo de desenho**]:",
+            (":blue[**Desenho Livre**]", ":blue[**Retângulo**]", ":blue[**Círculo**]", ":blue[**Linha**]", ":blue[**Apagar**]"),
+            horizontal=True
+        )
+
+    # Mapeando os nomes para os valores do st_canvas
+    mode_mapping = {
+        ":blue[**Desenho Livre**]": "freedraw",
+        ":blue[**Retângulo**]": "rect",
+        ":blue[**Círculo**]": "circle",
+        ":blue[**Linha**]": "line",
+        ":blue[**Apagar**]": "transform",
+    }
+
+    # Ajustar largura total automaticamente
+    largura_pagina = st.sidebar.slider("Largura do quadro", 400, 1200, 900)
+
+    # Inicializar estado do canvas corretamente
+    if "canvas_key" not in st.session_state:
+        st.session_state.canvas_key = "canvas_1"
+
+    # Criar o canvas
+    canvas_result = st_canvas(
+        fill_color="rgba(255, 255, 255, 0)",  # Fundo transparente
+        stroke_width=3,  # Espessura do traço
+        stroke_color=cor_selecionada,  # Cor da linha escolhida pelo usuário
+        background_color="#F9F9F9",  # Fundo cinza claro
+        height=500,  # Altura do quadro
+        width=largura_pagina,  # Largura dinâmica
+        drawing_mode=mode_mapping[drawing_mode],  # Modo de desenho selecionado
+        key=st.session_state.canvas_key  # Chave dinâmica para resetar
+    )
+
+    # Botão para limpar o quadro corretamente
+    if st.button("🧹 Limpar Quadro"):
+        st.session_state.canvas_key = f"canvas_{st.session_state.canvas_key}_reset"
+        st.rerun()
 
 def main():
     config_page()
@@ -222,13 +280,18 @@ def main():
         exibir_pontuacao()
         with st.form(key='resposta_form'):
 
-            col1, col2, col3 = st.columns([1,3,1])
+            col1, col2, col3 = st.columns([2,0.5,2])
 
             with col1:
                 st.success(f':blue[**Exercício**] :gray[**({st.session_state.operacao})**]')
-                st.warning(f':red[**{st.session_state.pergunta}**]')
+                # st.warning(f':red[**{st.session_state.pergunta}**]')
+                exibir_expressao_colorida(st.session_state.pergunta)
+
 
             with col2:
+                st.image("assets/cat-cats.gif", use_container_width=True, width=150, caption=" ")
+
+            with col3:
                 if "campo_resposta" not in st.session_state:
                     st.session_state["campo_resposta"] = ""
 
@@ -243,15 +306,14 @@ def main():
                 # st.caption("Digite sua resposta e clique em 'Responder' para verificar se está correta.")
                 # exibir_pontuacao()
 
-            with col2:
+            with col3:
                 col4, col5 = st.columns(2)
                 with col4:
-                    responder = st.form_submit_button(":green[**Responder**] **Pergunta**", help="Digite sua resposta e clique em 'Responder' para verificar se está correta.", icon=":material/add_task:")
+                    responder = st.form_submit_button(":green[**Responder**] **Pergunta**", help="Digite sua resposta e clique em 'Responder' para verificar se está correta.", icon=":material/add_task:", use_container_width=True)
                 with col5:
-                    pular = st.form_submit_button(":green[**Pular**] **Pergunta**", help="Pula a pergunta atual e exibe uma nova pergunta", icon=":material/move_down:")
+                    pular = st.form_submit_button(":green[**Pular**] **Pergunta**", help="Pula a pergunta atual e exibe uma nova pergunta", icon=":material/move_down:", use_container_width=True)
 
-            with col3:
-                st.image("assets/cat-cats.gif", use_container_width=True, width=100, caption=" ")
+
 
             if responder:
                 try:
@@ -291,5 +353,8 @@ def main():
 
                 st.rerun()
 
+    st.subheader(" ", divider="rainbow")
+    # Exibir o quadro no Streamlit
+    desenhar_quadro()
     st.subheader(" ", divider="rainbow")
     exibir_pontuacao()
