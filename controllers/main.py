@@ -29,7 +29,7 @@ def login():
                 st.rerun()
                 
     with col3:
-        st.image("assets/go-study.png", use_container_width=True, caption=" ")
+        st.image("assets/study-cat.gif", use_container_width=True, caption=" ")
         
     st.subheader(" ", divider="rainbow")                
 
