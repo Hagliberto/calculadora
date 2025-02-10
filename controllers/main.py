@@ -131,7 +131,7 @@ def main():
                 try:
                     resposta_numerica = float(resposta_usuario.replace(',', '.'))
                 except ValueError:
-                    st.write("Por favor, insira um número válido.")
+                    resposta_numerica = None
                     
                 
 
