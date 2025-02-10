@@ -124,7 +124,20 @@ def main():
                 if "campo_resposta" not in st.session_state:
                     st.session_state["campo_resposta"] = ""
     
-                resposta_usuario = st.number_input(":green[**Digite sua resposta⤵️**]", key="campo_resposta", placeholder="✍🏻 Insira sua resposta aqui")
+
+                resposta_usuario = st.text_input(":green[**Digite sua resposta⤵️**]", key="campo_resposta", placeholder="✍🏻 Insira sua resposta aqui")
+                
+                # Converter vírgula para ponto e transformar em número
+                try:
+                    resposta_numerica = float(resposta_usuario.replace(',', '.'))
+                    st.write(f"Você digitou: {resposta_numerica}")
+                except ValueError:
+                    st.write("Por favor, insira um número válido.")
+                    
+                
+
+
+
                 st.caption("Digite sua resposta e clique em 'Responder' para verificar se está correta.")
                 # exibir_pontuacao()
 
