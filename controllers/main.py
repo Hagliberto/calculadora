@@ -125,7 +125,7 @@ def main():
         # Lista de URLs das imagens
         image_urls = [
             "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEixx-tVqUWalVXAjPUacjiFqL_VQp6XI99dHD9caSXl-U5U_zE4JNAOSAlcImuEREouUXzKzadsuCHB3GUDPW2F1N0UIgEYdCGPoRH-LldVkxKVHcSFNNYCNceAui7fVHKTzyZGF_-wkhI/s616/blogger.png",
-            
+            "https://files.passeidireto.com/6eff4378-7b53-475b-aa23-5386f27a08ee/bg2.png",
         ]
 
         # Inicializa o estado da imagem para alternar a cada acesso
@@ -135,7 +135,7 @@ def main():
         # Exibição da imagem de forma aleatória a cada acesso
         st.image(
             st.session_state.current_image,
-            caption="Bem-vindo ao Sistema",
+            caption="Bem-vindo(a)",
             use_container_width=True
         )
 
