@@ -124,16 +124,7 @@ def main():
         # Adicionando a imagem no topo
         # Lista de URLs das imagens
         image_urls = [
-            "https://static.wikia.nocookie.net/tkoc/images/c/c8/Eternal_Sailor_Moon.png",
-            "https://cinevibes.com.br/wp-content/uploads/2024/07/sailor-moon-with-friends-416crfd863r99xxm.jpg",
-            "https://oldflix-images-cdn.b-cdn.net/images/cover/5d9dd3ba437c361034ed0c2f.jpg",
-            "https://static.wikia.nocookie.net/listofdeaths/images/4/48/Sailor_Moon_Crystal_poster.jpg",
-            "https://i.pinimg.com/564x/51/62/0f/51620fee995360cb9f1b7aa373b40ad9.jpg",
-            "https://i.pinimg.com/originals/9d/3b/3f/9d3b3f2d9d6c4d7d5b2c6c4f3e7f0d8d.jpg",
-            "https://i.pinimg.com/originals/9d/3b/3f/9d3b3f2d9d6c4d7d5b2c6c4f3e7f0d8d.jpg",
-            "https://i.pinimg.com/originals/9d/3b/3f/9d3b3f2d9d6c4d7d5b2c6c4f3e7f0d8d.jpg",
-            "https://i.pinimg.com/originals/9d/3b/3f/9d3b3f2d9d6c4d7d5b2c6c4f3e7f0d8d.jpg",
-            
+            "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEixx-tVqUWalVXAjPUacjiFqL_VQp6XI99dHD9caSXl-U5U_zE4JNAOSAlcImuEREouUXzKzadsuCHB3GUDPW2F1N0UIgEYdCGPoRH-LldVkxKVHcSFNNYCNceAui7fVHKTzyZGF_-wkhI/s616/blogger.png",
             
         ]
 
