@@ -15,14 +15,23 @@ os.makedirs(DATA_DIR, exist_ok=True)  # Garante que a pasta de dados exista
 
 def login():
     """Tela de login para capturar o nome do usuário antes de iniciar o jogo."""
-    with st.form(key='nome_form'):
-        nome = st.text_input('Digite seu nome:')
-        confirmar_nome = st.form_submit_button('Confirmar')
-        if confirmar_nome and nome:
-            st.session_state.nome = nome
-            st.toast(f'Bem-vindo(a), {nome}!', icon='🎉')
-            st.balloons()
-            st.rerun()
+    col1, col2, col3 = st.columns([1, 5, 1])
+    with col1:    
+        st.image("assets/cat-cats.gif", use_container_width=True, caption=" ")
+    with col2:
+        with st.form(key='nome_form'):
+            nome = st.text_input('Digite seu nome:')
+            confirmar_nome = st.form_submit_button('Confirmar')
+            if confirmar_nome and nome:
+                st.session_state.nome = nome
+                st.toast(f'Bem-vindo(a), {nome}!', icon='🎉')
+                st.balloons()
+                st.rerun()
+                
+    with col3:
+        st.image("assets/go-study.png", use_container_width=True, caption=" ")
+        
+    st.subheader(" ", divider="rainbow")                
 
 def main():
     config_page()
